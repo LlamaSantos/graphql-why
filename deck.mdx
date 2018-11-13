@@ -1,18 +1,19 @@
-import { Head } from 'mdx-deck'
+import { Head, Appear } from 'mdx-deck'
 
 export { default as theme } from './theme'
 
 <Head>
-  <title>Presentation Title</title>
+  <title>GraphQL, The Why</title>
 </Head>
 
-# Hello
+# GraphQL, The Why
 
 ---
 
-## Edit this file
+## About Me
 
-To create your presentation
+- Twitter [@llamasantos](https://www.twitter.com/llamasantos)
+- Email <james.white@kuali.co>
 
 ```notes
 - Create speaker notes in fenced code blocks
@@ -20,4 +21,356 @@ To create your presentation
 
 ---
 
-<https://github.com/jxnblk/mdx-deck>
+## Before we talk about GraphQL
+
+Lets talk about ...
+
+---
+
+## Why do we build services?
+
+<Appear>
+  <div>Simple Deployment Scheme</div>
+  <div>Single Source of Truth</div>
+  <div>Scalable</div>
+  <div>I see my neighbors doing it</div>
+</Appear>
+
+```notes
+The simplified model allows us to manage business logic centrally separate from UX.
+This lends itself to being a single source of Truth.
+Additionally allows us to scale to a given load.
+All the cool kids are doing it.
+SAAS, N-Tier, Microservices, Think Client, etc.  All the language for the past 20-ish years has assumed the existence of a service tier
+```
+
+---
+
+### Common Aspects of Successful API's
+
+<Appear>
+  <div>Documented</div>
+  <div>Accessible</div>
+  <div>Transparent</div>
+  <div>Flexible</div>
+  <div>Scalable</div>
+  <div>Fast</div>
+  <div>Enjoyable</div>
+  <div>
+    <img src="./images/gorilla.gif" />
+  </div>
+</Appear>
+
+---
+
+## Categories of API Design
+
+<div>Stateful</div>
+<div>Stateless</div>
+
+---
+
+## Stateful | TCP
+
+<Appear>
+  <div>CORBA</div>
+  <div>Thrift</div>
+  <div>Protobuf</div>
+  <div>grpc</div>
+  <div>
+    <img src="./images/dogs.gif" />
+  </div>
+</Appear>
+---
+
+## Stubs & Skeletons
+
+- IDL Based
+- Code Generation
+- Object Based (Mostly...)
+
+---
+
+## Difficulties
+
+- Documentation is there, IDL _is_ the Contract
+- Accessible via Code
+- Transparent through IDL
+- Flexible, requires change to IDL contracts :(
+- Fast, very fast at the cost of transparency
+- Scalable, depends
+- Enjoyable?
+
+---
+
+## Stateless | HTTP
+
+<Appear>
+  <div>SOAP</div>
+  <div>HTTP+XML</div>
+  <div>REST</div>
+  <div>HTTP+JSON</div>
+  <div>GraphQL</div>
+  <div>
+    <img src="./images/airplane.gif" />
+  </div>
+</Appear>
+
+---
+
+## Lets get this out of the way first ...
+
+- Slower
+- Accessible and Transparent by design
+- Scalable as a concequence of design
+
+```notes
+How many of you work in legacy systems that use SOAP interfaces and connect to it from Node.js?
+Mustache Templates work wonders here
+```
+
+---
+
+## So, um...
+
+What do all of these have in common?
+
+```notes
+Really we don't.  Its just argumentation around different ways of sending a document.
+What we're really arguing about is tooling.  XML's story is difficult and struggles.
+REST/HTTP+JSON - Relies more on HTTP Verbs in conjunction with payload and URI
+```
+
+---
+
+## Stateless API's are essentially...
+
+<Appear>
+  <div>Documents</div>
+  <div>Metadata</div>
+</Appear>
+
+---
+
+## Soap | HTTP+XML
+
+- Tooling - `SAX`, `XSLT`, `XPath`, `XQuery`, et al
+- [WSDL](https://raw.githubusercontent.com/sensepost/wikto/master/Web%20References/com.google.api/GoogleSearch.wsdl) (IDL?)
+- Schema | DTD
+
+---
+
+## Soap Example
+
+```XML
+<?xml version='1.0' encoding='UTF-8'?>
+
+<soap11:Envelope
+   xmlns="urn:GoogleSearch"
+   xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap11:Body>
+    <doGoogleSearch>
+      <key>00000000000000000000000000000000</key>
+      <q>shrdlu winograd maclisp teletype</q>
+      <start>0</start>
+      <maxResults>10</maxResults>
+      <filter>true</filter>
+      <restrict></restrict>
+      <safeSearch>false</safeSearch>
+      <lr></lr>
+      <ie>latin1</ie>
+      <oe>latin1</oe>
+    </doGoogleSearch>
+  </soap11:Body>
+</soap11:Envelope>
+```
+
+---
+
+## Soap Issues
+
+- Tooling
+- Confusion - `Element` vs `Attribute`
+- Fits most aspects of a successful API but ...
+- V e r b o s e
+- Passé
+- Fun?
+
+---
+
+## REST | HTTP+JSON
+
+- Far less tooling
+- REST (HTTP Verb + URL = Aweseomeness)
+- Fits most aspects of a successful API
+- En Vogue
+- Fun
+
+---
+
+## REST Example
+
+```
+GET /people/1 HTTP/1.1
+Host: mysite.com
+Accept: */*
+```
+
+```JSON
+{
+  "firstName": "John",
+  "lastName": "Lydon",
+  "nickname": "Johnny Rotten",
+  "occupation": "Singer/Songwriter"
+}
+```
+
+---
+
+### REST Issues
+
+- Balance between Headers and Payload
+- RPC operations
+- Multi Request, (HTTP 2.0 can reduce this)
+- Not flexible
+
+---
+
+### GraphQL
+
+- JSON is Transport
+- Describes 2 Components (Query & Variables)
+- DSL for querying, mutations, and subscriptions
+- Transparent, Accessible, Flexible, Faster on aggregate.
+
+---
+
+### GraphQL Request
+
+```
+{
+  "query": "query { authors(id: 1) { ... }}",
+  "variables": {}
+}
+```
+
+---
+
+### GraphQL Documented
+
+- Type definitions can include inline documentation
+- Keeping documentation as part of the definition means no lose ends
+
+---
+
+### Schema
+
+```GraphQL
+"""
+Type representing an Author
+"""
+type Author {
+  firstName: String
+  lastName: String
+  nickname: String @deprecated
+
+  """
+  Collection of books
+  """
+  books: [Book]
+}
+```
+
+---
+
+### GraphQL Accessible, Transparent, & Flexible
+
+- Open Queryable Language
+- Able to recursively fetch entities
+- Not bound to a Database
+
+---
+
+### GraphQL Example
+
+```GraphQL
+query {
+  authors(id: 1) {
+    firstName
+    lastName
+    books {
+      title
+      publisher
+      authors {
+        firstName
+        lastName
+      }
+    }
+  }
+}
+```
+
+---
+
+### Additional Fun
+
+- Directives
+- Mutations
+- Subscriptions
+- Not limited to HTTP, but can work over any Transport. Its just a document
+
+---
+
+### Directives
+
+```GraphQL
+directive @authorized (role: String!) on FIELD_DEFINITION
+
+SCHEMA
+SCALAR
+OBJECT
+ARGUMENT_DEFINITION
+INTERFACE
+UNION
+ENUM
+ENUM_VALUE
+INPUT_OBJECT
+INPUT_FIELD_DEFINITION
+```
+
+---
+
+### Mutations
+
+```gql
+mutation UpdateThings($person: UpdatePersonInput) {
+  updatePerson(person: $person) {
+    success
+    validations {
+      code
+      message
+    }
+  }
+}
+```
+
+---
+
+### Subscriptions
+
+```gql
+subscription NotifyMeOfStuff($stuffILike: StuffConfig) {
+  stuffNotifications(config: $stuffILike) {
+    state
+    message
+  }
+}
+```
+
+Note: How subscriptions work is purely an implementation detail. GraphQL provides the language to describe a subscription an implementation will dictate the `how`
+
+---
+
+### Conclusion
+
+<img src="./images/think.gif" />
