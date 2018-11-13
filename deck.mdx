@@ -14,9 +14,11 @@ export { default as theme } from './theme'
 
 - Twitter [@llamasantos](https://www.twitter.com/llamasantos)
 - Email <james.white@kuali.co>
+- Slides <https://github.com/llamasantos/graphql-why>
 
 ```notes
-- Create speaker notes in fenced code blocks
+- Dev Manager on Sponsored Projects at Kuali Research
+- Started in April 2018, so this year
 ```
 
 ---
@@ -37,6 +39,8 @@ Lets talk about ...
 </Appear>
 
 ```notes
+4 clicks
+
 The simplified model allows us to manage business logic centrally separate from UX.
 This lends itself to being a single source of Truth.
 Additionally allows us to scale to a given load.
@@ -61,12 +65,22 @@ SAAS, N-Tier, Microservices, Think Client, etc.  All the language for the past 2
   </div>
 </Appear>
 
+```notes
+8 clicks
+
+I'm sure there are other aspects that are important but I think this list takes care of all major concerns from both engineer and the customer/business
+```
+
 ---
 
 ## Categories of API Design
 
 <div>Stateful</div>
 <div>Stateless</div>
+
+```notes
+If we consider API construction as these 2 categories we can better reason about them
+```
 
 ---
 
@@ -81,6 +95,11 @@ SAAS, N-Tier, Microservices, Think Client, etc.  All the language for the past 2
     <img src="./images/dogs.gif" />
   </div>
 </Appear>
+
+```notes
+5 clicks
+```
+
 ---
 
 ## Stubs & Skeletons
@@ -101,6 +120,11 @@ SAAS, N-Tier, Microservices, Think Client, etc.  All the language for the past 2
 - Scalable, depends
 - Enjoyable?
 
+```notes
+With Stateful APIs we knowingly sacrifice clarity/accessibility in favor of speed.
+Ultimately this group has value but is out of scope for our discussion.
+```
+
 ---
 
 ## Stateless | HTTP
@@ -115,6 +139,10 @@ SAAS, N-Tier, Microservices, Think Client, etc.  All the language for the past 2
     <img src="./images/airplane.gif" />
   </div>
 </Appear>
+
+```notes
+6 clicks
+```
 
 ---
 
@@ -135,12 +163,6 @@ Mustache Templates work wonders here
 
 What do all of these have in common?
 
-```notes
-Really we don't.  Its just argumentation around different ways of sending a document.
-What we're really arguing about is tooling.  XML's story is difficult and struggles.
-REST/HTTP+JSON - Relies more on HTTP Verbs in conjunction with payload and URI
-```
-
 ---
 
 ## Stateless API's are essentially...
@@ -149,6 +171,15 @@ REST/HTTP+JSON - Relies more on HTTP Verbs in conjunction with payload and URI
   <div>Documents</div>
   <div>Metadata</div>
 </Appear>
+
+```notes
+2 clicks
+
+Documents, documents, documents
+Really we are just looking at querying and manipulation of data in different ways
+Tooling.  XML's story is difficult and struggles.
+REST/HTTP+JSON - Relies more on HTTP Verbs in conjunction with payload and URI
+```
 
 ---
 
@@ -374,3 +405,9 @@ Note: How subscriptions work is purely an implementation detail. GraphQL provide
 ### Conclusion
 
 <img src="./images/think.gif" />
+
+```notes
+GraphQL doesn't entirely replace the need for REST base or if you prefer SOAP based APIs but rather provides an alternative.
+It can run side by side as more traditional API sets.
+Its queryable and declarative.
+```
